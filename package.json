@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.19.1"
+  },
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/test/**",
+      "**/docs/**"
+    ],
+    "delay": 2500
+  }
+}

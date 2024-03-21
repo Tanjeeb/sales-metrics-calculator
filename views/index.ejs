@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Welcome to <%= appName %></h1>
+    <h2>Sales Reports: </h2>
+    <ul>
+        <li class="text-muted">Total sales before discount is applied: <span class="text-success "><%= totalSales %> </span></li>
+        <li class="text-muted">Total sales after discount code is applied: <span class="text-success "> <%= totalSalesAfterDiscount%></span></li>
+        <li class="text-muted">Total amount of money lost via customer using Discount Codes: <span class="text-success "> <%= totalLostAmount%></span></li>
+        <li class="text-muted">Average discount per customer as a percentage: <span class="text-success "> <%= averageDiscount %></span></li>
+    </ul>
+
+    <h3> REST API Lists:</h3>
+
+
+    <table class="table table-striped">
+       <thead>
+           <tr>
+               <th>Method</th>
+               <th>URL</th>
+               <th>Description</th>
+           </tr>
+       </thead>
+       <tbody>
+            <tr>
+                <td>
+                    <code>GET</code>
+                </td>
+                <td>
+                    <code>/api/v1/sales/total-sales</code>
+                </td>
+                <td>
+                    <a href="/api/v1/sales/total-sales">Get total sales discount</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <code>GET</code>
+                </td>
+                <td>
+                    <code>/api/v1/sales/total-sales-after-discount</code>
+                </td>
+                <td>
+                    <a href="/api/v1/sales/total-sales-after-discount">Get total sales after discount</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <code>GET</code>
+                </td>
+                <td>
+                    <code>/api/v1/sales/total-lost-amount</code>
+                </td>
+                <td>
+                    <a href="/api/v1/sales/total-lost-amount">Get total lost amount</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <code>GET</code>
+                </td>
+                <td>
+                    <code>/api/v1/sales/average-discount</code>
+                </td>
+                <td>
+                    <a href="/api/v1/sales/average-discount">Get average discount</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
