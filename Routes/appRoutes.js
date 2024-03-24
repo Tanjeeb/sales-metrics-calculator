@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
     const averageDiscount = salesController.getAverageDiscount();
 
     res.render('../views/index', { pageTitle: 'Home',
-        appName: 'My Sales App',
+        appName: 'my Sales Metrics Calculator App',
         totalSales,
         totalSalesAfterDiscount,
         totalLostAmount,

@@ -5,8 +5,12 @@ class DiscountModel {
         this.discounts = JSON.parse(fs.readFileSync('public/discounts.json'));
     }
 
-    getDiscountByKey(key) {
-        return this.discounts.find(discount => discount.key === key);
+    getDiscountByKeys(keys) {
+        const discounts = keys.map(key => {
+            const discount = this.discounts.find(discount => discount.key === key);
+            return discount ? discount.value : 0;
+        });
+        return discounts.reduce((total, value) => total + value, 0);
     }
 }
 

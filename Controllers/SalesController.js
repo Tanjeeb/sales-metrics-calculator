@@ -1,3 +1,4 @@
+// SalesController.js
 const ProductModel = require('../models/ProductModel');
 const OrderModel = require('../models/OrderModel');
 const DiscountModel = require('../models/DiscountModel');
@@ -25,17 +26,13 @@ class SalesController {
         const orders = orderModel.getAllOrders();
         let totalSalesAfterDiscount = 0;
         orders.forEach(order => {
-            let discount = 0;
-            if (order.discount) {
-                const discountValue = discountModel.getDiscountByKey(order.discount)?.value;
-                if (discountValue) {
-                    discount = discountValue;
-                }
-            }
+            const discountKeys = order.discount ? order.discount.split(',') : [];
+            const totalDiscount = discountModel.getDiscountByKeys(discountKeys);
             order.items.forEach(item => {
                 const product = productModel.getProductBySku(item.sku);
                 if (product) {
-                    totalSalesAfterDiscount += (product.price * item.quantity) * (1 - discount);
+                    totalSalesAfterDiscount += (product.price * item.quantity) * (1 - totalDiscount);
+                    //console.log('withdiscount',totalSalesAfterDiscount);
                 }
             });
         });
@@ -46,17 +43,14 @@ class SalesController {
         const orders = orderModel.getAllOrders();
         let totalLostAmount = 0;
         orders.forEach(order => {
-            if (order.discount) {
-                const discountValue = discountModel.getDiscountByKey(order.discount)?.value;
-                if (discountValue) {
-                    order.items.forEach(item => {
-                        const product = productModel.getProductBySku(item.sku);
-                        if (product) {
-                            totalLostAmount += (product.price * item.quantity) * discountValue;
-                        }
-                    });
+            const discountKeys = order.discount ? order.discount.split(',') : [];
+            const totalDiscount = discountModel.getDiscountByKeys(discountKeys);
+            order.items.forEach(item => {
+                const product = productModel.getProductBySku(item.sku);
+                if (product) {
+                    totalLostAmount += (product.price * item.quantity) * totalDiscount;
                 }
-            }
+            });
         });
         return totalLostAmount;
     }
@@ -66,16 +60,16 @@ class SalesController {
         let totalDiscount = 0;
         let totalCustomers = 0;
         orders.forEach(order => {
-            if (order.discount) {
-                const discountValue = discountModel.getDiscountByKey(order.discount)?.value;
-                if (discountValue) {
-                    totalDiscount += discountValue;
-                    totalCustomers++;
-                }
+            const discountKeys = order.discount ? order.discount.split(',') : [];
+            const totalDiscountPercentage = discountModel.getDiscountByKeys(discountKeys) * 100;
+            if (totalDiscountPercentage > 0) {
+                totalDiscount += totalDiscountPercentage;
+                totalCustomers++;
             }
         });
+        //console.log('total customers:',totalCustomers);
         if (totalCustomers === 0) return 0;
-        return (totalDiscount / totalCustomers) * 100;
+        return totalDiscount / totalCustomers;
     }
 }
 
