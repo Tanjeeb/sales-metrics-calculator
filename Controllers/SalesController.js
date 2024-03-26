@@ -54,20 +54,20 @@ class SalesController {
         });
         return totalLostAmount;
     }
-
     getAverageDiscount() {
         const orders = orderModel.getAllOrders();
         let totalDiscount = 0;
         let totalCustomers = 0;
         orders.forEach(order => {
-            const discountKeys = order.discount ? order.discount.split(',') : [];
-            const totalDiscountPercentage = discountModel.getDiscountByKeys(discountKeys) * 100;
-            if (totalDiscountPercentage > 0) {
-                totalDiscount += totalDiscountPercentage;
-                totalCustomers++;
+            if (order.discount) {
+                const discountKeys = order.discount.split(',');
+                const totalDiscountPercentage = discountModel.getDiscountByKeys(discountKeys) * 100;
+                if (totalDiscountPercentage > 0) {
+                    totalDiscount += totalDiscountPercentage;
+                    totalCustomers++;
+                }
             }
         });
-        //console.log('total customers:',totalCustomers);
         if (totalCustomers === 0) return 0;
         return totalDiscount / totalCustomers;
     }
